@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <iostream>
 
 // all of your function definitions should be in this file now
 template <typename T>
@@ -12,7 +13,7 @@ private:
     std::vector<std::vector<T>> data;
 public:
     Matrix(std::size_t N): size(N), data(N, std::vector<T>(N, 0)) {}
-    Matrix<T>(std::vector<std::vector<T>> nums) : size(nums.size()) {}
+    Matrix<T>(std::vector<std::vector<T>> nums) : size(nums.size()), data(nums) {}
 
     Matrix<T> operator+(const Matrix<T> &rhs) const{
         
@@ -26,7 +27,7 @@ public:
         return result;
     }
     Matrix<T> operator*(const Matrix<T> &rhs) const {
-        Matrix result(size);
+        Matrix<T> result(size);
 
         for (std::size_t i = 0; i < size; ++i) {
             for (std::size_t j = 0; j < size; ++j) {
@@ -39,10 +40,18 @@ public:
         return result;
     }
     void set_value(std::size_t i, std::size_t j, int n) {
-
+        if(i >= size || j >= size){
+            throw std::out_of_range("Error: Matrix index out of bounds");
+        }else{
+            data[i][j] = n;
+        }
     }
     T get_value(std::size_t i, std::size_t j) const {
-
+        if(i >= size || j >= size){
+            throw std::out_of_range("Error: Matrix index out of bounds");
+        }else{
+            return data[i][j];
+        }
     }
     int get_size() const{
         return size;
